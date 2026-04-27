@@ -1,16 +1,43 @@
-# React + Vite
+# Personal Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully responsive personal portfolio built with **React + Vite** and **Framer Motion**.
 
-Currently, two official plugins are available:
+## Implemented Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Responsive layout for mobile, tablet, and desktop
+- Sticky navigation with anchor links
+- Sections: Hero, About, Skills, Projects, Contact, Footer
+- Minimum 3 project cards with tech stack + GitHub/live links
+- 1 subtle parallax scrolling effect in the hero background
+- 3+ on-scroll animations (section reveals, skills stagger, project card stagger)
+- `prefers-reduced-motion` accessibility fallback
+- Google Fonts typography setup
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- Framer Motion
+- CSS
 
-## Expanding the ESLint configuration
+## Run Locally
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+## Quality Checks
+
+```bash
+npm run lint
+npm run build
+```
+
+## Deploy
+
+Deploy the `dist/` output using a free hosting platform such as Netlify or Vercel.
+
+```bash
+npm run build
+```
