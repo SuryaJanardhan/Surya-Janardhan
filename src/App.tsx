@@ -1,11 +1,26 @@
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from 'framer-motion'
+import type { ReactNode } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 
-const navLinks = [
+type NavLink = {
+  href: string
+  label: string
+}
+
+type Project = {
+  title: string
+  description: string
+  stack: string[]
+  github: string
+  demo: string
+}
+
+type SectionProps = {
+  id: string
+  title: string
+  children: ReactNode
+}
+
+const navLinks: NavLink[] = [
   { href: '#hero', label: 'Home' },
   { href: '#about', label: 'About' },
   { href: '#skills', label: 'Skills' },
@@ -13,7 +28,7 @@ const navLinks = [
   { href: '#contact', label: 'Contact' },
 ]
 
-const skills = [
+const skills: string[] = [
   'HTML5',
   'CSS3',
   'JavaScript',
@@ -24,7 +39,7 @@ const skills = [
   'Git & GitHub',
 ]
 
-const projects = [
+const projects: Project[] = [
   {
     title: 'TaskFlow Planner',
     description:
@@ -51,7 +66,7 @@ const projects = [
   },
 ]
 
-function Section({ id, title, children }) {
+function Section({ id, title, children }: SectionProps) {
   return (
     <motion.section
       id={id}
