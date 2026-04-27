@@ -1,3 +1,5 @@
+'use client'
+
 import {
   motion,
   useReducedMotion,
@@ -18,7 +20,7 @@ const skills = [
   'CSS3',
   'JavaScript',
   'React',
-  'Vite',
+  'Next.js',
   'Node.js',
   'Python',
   'Git & GitHub',
@@ -67,7 +69,7 @@ function Section({ id, title, children }) {
   )
 }
 
-function App() {
+export default function PortfolioPage() {
   const prefersReducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll()
 
@@ -225,10 +227,8 @@ function App() {
       </main>
 
       <footer>
-        <p>© {new Date().getFullYear()} Surya Janardhan. Built with React + Vite.</p>
+        <p>© {new Date().getFullYear()} Surya Janardhan. Built with Next.js.</p>
       </footer>
     </>
   )
 }
-
-export default App
