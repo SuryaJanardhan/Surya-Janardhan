@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Github, Linkedin, Send } from "lucide-react";
+import { Mail, Code, Briefcase, Send } from "lucide-react";
 
 export default function Contact() {
   return (
@@ -14,7 +14,7 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Get In <span className="text-emerald-400">Touch</span></h2>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Get In <span className="text-primary">Touch</span></h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">I&apos;m currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is always open.</p>
         </motion.div>
 
@@ -27,19 +27,19 @@ export default function Contact() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <a href="mailto:hello@example.com" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group">
-              <div className="p-4 bg-emerald-500/20 rounded-full text-emerald-400 group-hover:scale-110 transition-transform">
+            <a href="mailto:chintalajanardhan2004@gmail.com" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group border hover:border-primary/50">
+              <div className="p-4 bg-primary/20 rounded-full text-primary group-hover:scale-110 transition-transform">
                 <Mail size={24} />
               </div>
               <div>
                 <h3 className="font-semibold text-lg">Email Me</h3>
-                <p className="text-muted-foreground">Drop a line anytime.</p>
+                <p className="text-muted-foreground w-full truncate">chintalajanardhan2004@gmail.com</p>
               </div>
             </a>
             
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group">
+            <a href="https://github.com/Surya2004-janardhan" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group">
               <div className="p-4 bg-white/10 rounded-full text-white group-hover:scale-110 transition-transform">
-                <Github size={24} />
+                <Code size={24} />
               </div>
               <div>
                 <h3 className="font-semibold text-lg">GitHub</h3>
@@ -47,9 +47,9 @@ export default function Contact() {
               </div>
             </a>
 
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group">
+            <a href="https://www.linkedin.com/in/surya-janardhan/" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group border hover:border-primary/50">
               <div className="p-4 bg-blue-500/20 rounded-full text-blue-400 group-hover:scale-110 transition-transform">
-                <Linkedin size={24} />
+                <Briefcase size={24} />
               </div>
               <div>
                 <h3 className="font-semibold text-lg">LinkedIn</h3>
@@ -68,17 +68,17 @@ export default function Contact() {
           >
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-muted-foreground mb-2">Name</label>
-              <input type="text" id="name" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-white" placeholder="John Doe" />
+              <input type="text" id="name" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white" placeholder="John Doe" />
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-2">Email</label>
-              <input type="email" id="email" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-white" placeholder="john@example.com" />
+              <input type="email" id="email" className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white" placeholder="john@example.com" />
             </div>
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-2">Message</label>
-              <textarea id="message" rows={4} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all text-white resize-none" placeholder="Your message here..." />
+              <textarea id="message" rows={4} className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white resize-none" placeholder="Your message here..." />
             </div>
-            <button type="submit" className="flex items-center justify-center gap-2 w-full py-4 bg-emerald-500 text-black font-semibold rounded-lg hover:bg-emerald-400 transition-colors mt-2">
+            <button type="submit" className="flex items-center justify-center gap-2 w-full py-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/80 transition-colors mt-2">
               Send Message
               <Send size={18} />
             </button>

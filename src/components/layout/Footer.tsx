@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="py-8 bg-black border-t border-white/10">
       <div className="container px-6 mx-auto flex flex-col md:flex-row items-center justify-between">
         <p className="text-muted-foreground text-sm">
-          &copy; {currentYear} Advanced AI Portfolio. All rights reserved.
+          &copy; {currentYear} SuryaJanardhan.All rights reserved.
         </p>
         <div className="flex items-center gap-6 mt-4 md:mt-0 text-sm font-medium">
           <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>

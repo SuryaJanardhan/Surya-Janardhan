@@ -1,55 +1,73 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { GraduationCap, Briefcase, Code2 } from "lucide-react";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 relative z-10 bg-black/40 border-y border-white/5">
-      <div className="container px-6 mx-auto">
-        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-24">
-          
-          {/* Text Content */}
-          <motion.div 
-            className="flex-1"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+    <section id="about" className="py-28 relative z-10 bg-[#060606] border-y border-white/5">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-black/0 to-black/0 pointer-events-none" />
+      <div className="container px-6 mx-auto relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">About <span className="text-primary">Me</span></h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Bridging the gap between intelligent AI systems and robust Full-Stack architecture.</p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Education Card */}
+          <motion.div
+            className="glass p-10 rounded-3xl flex flex-col items-center text-center hover:border-primary/50 transition-all duration-300 group hover:-translate-y-2 bg-gradient-to-b from-white/5 to-transparent"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-6">About <span className="text-blue-400">Me</span></h2>
-            <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
-              <p>
-                I am a passionate software engineer dedicated to crafting highly scalable, performant, and beautifully designed web applications. With a strong foundation in modern JavaScript frameworks, I build full-stack solutions that bridge the gap between design and intricate backend logic.
-              </p>
-              <p>
-                My approach focuses on writing clean, maintainable code, leveraging AI to accelerate development, and always keeping the user experience at the forefront. Currently, I am exploring advanced React architectures and deepening my expertise in systems engineering.
-              </p>
-              <p>
-                When I&apos;m not coding, you can find me analyzing open-source projects or exploring the latest trends in UI/UX design.
-              </p>
+            <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-[0_0_30px_-5px_rgba(255,215,0,0.3)]">
+              <GraduationCap size={40} className="text-primary" />
             </div>
+            <h3 className="text-2xl font-bold mb-4">Education</h3>
+            <p className="text-muted-foreground mb-8 text-lg">B.Tech in Artificial Intelligence & Machine Learning at Aditya College of Engineering.</p>
+            <span className="font-bold text-black px-6 py-2 bg-primary rounded-full text-sm shadow-[0_0_20px_rgba(255,215,0,0.4)] mt-auto">CGPA: 8.5/10.0</span>
           </motion.div>
 
-          {/* Visual Content */}
-          <motion.div 
-            className="flex-1 relative"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+          {/* Experience Card */}
+          <motion.div
+            className="glass relative p-10 rounded-3xl flex flex-col items-center text-center overflow-hidden border-primary/30 hover:border-primary transition-all duration-300 group hover:-translate-y-2 bg-gradient-to-b from-primary/10 to-transparent"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative w-72 h-72 md:w-96 md:h-96 mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-2xl rotate-3 opacity-50 blur-lg" />
-              <div className="absolute inset-0 bg-background border border-white/10 rounded-2xl -rotate-3 overflow-hidden flex items-center justify-center">
-                 {/* This would be an optimized Next.js Image component once an asset is provided */}
-                 <div className="text-muted-foreground italic flex flex-col items-center">
-                    <span className="text-6xl mb-2">👋</span>
-                    <span className="text-sm">Profile Image Placeholder</span>
-                 </div>
-              </div>
+            <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors pointer-events-none" />
+            <div className="w-20 h-20 bg-primary/20 rounded-2xl flex items-center justify-center mb-8 z-10 group-hover:scale-110 group-hover:-rotate-6 transition-transform shadow-[0_0_40px_-5px_rgba(255,215,0,0.5)]">
+              <Briefcase size={40} className="text-primary" />
             </div>
+            <h3 className="text-2xl font-bold mb-4 z-10">Experience</h3>
+            <p className="text-muted-foreground mb-8 text-lg z-10">AI Intern at <span className="text-white">GrowStack.ai</span>. Deployed 20+ production-ready AI agents and RAG pipelines.</p>
+            <span className="font-bold text-black px-6 py-2 bg-primary rounded-full text-sm z-10 shadow-[0_0_20px_rgba(255,215,0,0.4)] mt-auto">70% Manual Effort Slashed</span>
           </motion.div>
-        
+
+          {/* Problem Solving Card */}
+          <motion.div
+            className="glass p-10 rounded-3xl flex flex-col items-center text-center hover:border-primary/50 transition-all duration-300 group hover:-translate-y-2 bg-gradient-to-b from-white/5 to-transparent"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-[0_0_30px_-5px_rgba(255,215,0,0.3)]">
+              <Code2 size={40} className="text-primary" />
+            </div>
+            <h3 className="text-2xl font-bold mb-4">Algorithmic Excellence</h3>
+            <p className="text-muted-foreground mb-8 text-lg">A deep love for coding challenges. Demonstrated strong analytical abilities in algorithms.</p>
+            <span className="font-bold text-black px-6 py-2 bg-primary rounded-full text-sm shadow-[0_0_20px_rgba(255,215,0,0.4)] mt-auto">800+ Problems Solved</span>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -27,7 +27,7 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <a href="#" className="text-2xl font-bold tracking-tighter hover:text-primary transition-colors">
-          Port<span className="text-blue-500">folio</span>.
+          Port<span className="text-primary">folio</span>.
         </a>
 
         {/* Desktop Nav */}
@@ -60,7 +60,7 @@ export default function Navbar() {
                   key={link}
                   href={`#${link.toLowerCase()}`}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-foreground hover:text-blue-400 transition-colors"
+                  className="text-lg font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {link}
                 </a>

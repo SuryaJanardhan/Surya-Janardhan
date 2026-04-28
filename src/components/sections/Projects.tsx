@@ -1,35 +1,66 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { Code } from "lucide-react";
 
 const projects = [
   {
-    title: "AI Email Assistant",
-    description: "An automated email responder powered by local LLMs via Ollama and n8n. Seamlessly classifies and drafts replies.",
-    tech: ["Next.js", "TypeScript", "Ollama", "Tailwind"],
-    github: "#",
-    live: "#"
+    title: "Dreams - Autonomous AI Video Production",
+    description: "Architected an autonomous system producing 60+ monthly lip-synced videos across YT and IG, eliminating 100% manual effort using Gemini 2.0 Pro and Qwen3-TTS.",
+    tech: ["Node.js", "Python", "React", "Gemini 2.0", "FFmpeg"],
+    // Random AI/Robot gif
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
+    github: "https://github.com/Surya2004-janardhan/Dreams"
   },
   {
-    title: "WebRTC Video Platform",
-    description: "A production-ready mesh topology video chat application supporting multiple peers with real-time text chat.",
-    tech: ["React", "WebRTC", "Socket.IO", "Node.js"],
-    github: "#",
-    live: "#"
+    title: "Aditya Foods",
+    description: "Developed a full-stack mobile food ordering app with a secure Node.js backend, REST APIs, Razorpay integration, and an optimized Redis caching layer.",
+    tech: ["React Native", "Node.js", "SQL", "Redis", "Expo"],
+    // Random App Data gif
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
+    github: "https://github.com/Surya2004-janardhan/AdtFoods"
   },
   {
-    title: "Cataract Detection AI",
-    description: "Electron desktop app connecting to Hugging Face and Groq to deliver context-aware medical intelligence.",
-    tech: ["Electron", "Python", "Gradio", "React"],
-    github: "#",
-    live: "#"
+    title: "AI Sensei",
+    description: "Leveraged Groq API for instant context-aware Japanese tutoring via vector similarity search, coupled with Socket.IO real-time language exchange.",
+    tech: ["React.js", "Node.js", "MongoDB", "Groq API", "Socket.IO"],
+    // Random Tech AI Grid GIF
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
+    github: "https://github.com/Surya2004-janardhan/AI-sensei"
+  },
+  {
+    title: "Redis Game Leaderboard",
+    description: "A production-style backend service for real-time game leaderboards powered by Redis, Express, and TypeScript.",
+    tech: ["TypeScript", "Redis", "Express"],
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
+    github: "https://github.com/Surya2004-janardhan/Redis-Powered-Game-Leaderboard-with-Atomic-Operations-and-Real-Time-Updates"
+  },
+  {
+    title: "High-Performance File Transfer",
+    description: "A robust, production-grade file transfer service for large files (1GB+) with chunked uploading, resumability, and memory-efficient streaming.",
+    tech: ["TypeScript", "API", "Streaming"],
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
+    github: "https://github.com/Surya2004-janardhan/High-Performance-Large-File-Transfer-Service-with-Chunked-Uploads"
+  },
+  {
+    title: "Emotion Stress Analyzer",
+    description: "Train a CNN and LSTM for cognitive layer-based emotion detection using audio and video from the RAVDESS dataset.",
+    tech: ["Python", "CNN", "LSTM", "RAVDESS"],
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
+    github: "https://github.com/Surya2004-janardhan/emotion-based-stress-analyzer-desktop-app"
+  },
+  {
+    title: "IoT Sensor Analytics",
+    description: "A containerized IoT backend for ingesting, storing, and analyzing large-scale time-series sensor data using TimescaleDB and a TypeScript API.",
+    tech: ["TypeScript", "TimescaleDB", "IoT", "Docker"],
+    image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
+    github: "https://github.com/Surya2004-janardhan/An-ioT-Sensor-Analytics-Platform-with-TimescaleDB"
   }
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 relative z-10">
+    <section id="projects" className="py-24 relative z-10 bg-black">
       <div className="container px-6 mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,11 +69,11 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 w-fit">Featured Projects</h2>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-white w-fit">Featured Projects</h2>
           <p className="text-muted-foreground text-lg max-w-2xl">Some of the recent things I&apos;ve built, solving real user problems.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {projects.map((project, i) => (
             <motion.div
               key={i}
@@ -50,32 +81,30 @@ export default function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass rounded-2xl p-6 group hover:skew-y-1 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full"
+              className="glass rounded-3xl p-6 group hover:skew-y-1 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full hover:border-primary/50 relative overflow-hidden"
             >
-              <div className="w-full h-48 bg-white/5 rounded-xl mb-6 relative overflow-hidden flex items-center justify-center border border-white/5">
-                {/* Placeholder Image Space */}
-                <div className="w-16 h-16 bg-white/10 rounded-full group-hover:scale-150 transition-transform duration-500 blur-xl" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0 pointer-events-none" />
+              
+              <div className="w-full h-56 rounded-2xl mb-6 relative overflow-hidden flex items-center justify-center border border-white/10 z-10 bg-black">
+                {/* Random code/tech GIFs explicitly requested by user */}
+                <img src={project.image} alt={project.title} className="object-cover w-full h-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
               </div>
               
-              <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-              <p className="text-muted-foreground mb-6 flex-grow">{project.description}</p>
+              <h3 className="text-2xl font-bold mb-3 z-10 leading-tight group-hover:text-primary transition-colors">{project.title}</h3>
+              <p className="text-muted-foreground mb-6 flex-grow z-10">{project.description}</p>
               
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-6 z-10">
                 {project.tech.map((t) => (
-                  <span key={t} className="text-xs font-medium px-2 py-1 bg-white/5 border border-white/10 rounded">
+                  <span key={t} className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md border border-white/10 rounded-lg group-hover:border-primary/30 group-hover:text-primary transition-colors">
                     {t}
                   </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-4 mt-auto">
-                <a href={project.github} className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <Github size={20} />
-                  <span className="sr-only">GitHub</span>
-                </a>
-                <a href={project.live} className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2">
-                  <ExternalLink size={20} />
-                  <span className="sr-only">Live Demo</span>
+              <div className="flex items-center gap-4 mt-auto z-10 pt-4 border-t border-white/10">
+                <a href={project.github} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                  <Code size={20} />
+                  <span className="font-medium">View Source Code</span>
                 </a>
               </div>
             </motion.div>
