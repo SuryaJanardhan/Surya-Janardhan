@@ -5,8 +5,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Premium AI Portfolio",
+  title: "Surya Janardhan",
   description: "A highly advanced personal portfolio building modern web experiences.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -16,6 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
+      
       <body className={`${inter.variable} font-sans antialiased bg-background text-foreground selection:bg-white/30`}>
         {children}
       </body>

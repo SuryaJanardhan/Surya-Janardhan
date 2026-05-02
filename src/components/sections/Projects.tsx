@@ -87,7 +87,7 @@ export default function Projects() {
               
               <div className="w-full h-56 rounded-2xl mb-6 relative overflow-hidden flex items-center justify-center border border-white/10 z-10 bg-black">
                 {/* Random code/tech GIFs explicitly requested by user */}
-                <img src={project.image} alt={project.title} className="object-cover w-full h-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+                <img src={project.image} alt={project.title} loading="lazy" className="object-cover w-full h-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
               </div>
               
               <h3 className="text-2xl font-bold mb-3 z-10 leading-tight group-hover:text-primary transition-colors">{project.title}</h3>
