@@ -8,7 +8,6 @@ const projects = [
     title: "Dreams - Autonomous AI Video Production",
     description: "Architected an autonomous system producing 60+ monthly lip-synced videos across YT and IG, eliminating 100% manual effort using Gemini 2.0 Pro and Qwen3-TTS.",
     tech: ["Node.js", "Python", "React", "Gemini 2.0", "FFmpeg"],
-    // Random AI/Robot gif
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
     github: "https://github.com/Surya2004-janardhan/Dreams"
   },
@@ -16,7 +15,6 @@ const projects = [
     title: "Aditya Foods",
     description: "Developed a full-stack mobile food ordering app with a secure Node.js backend, REST APIs, Razorpay integration, and an optimized Redis caching layer.",
     tech: ["React Native", "Node.js", "SQL", "Redis", "Expo"],
-    // Random App Data gif
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
     github: "https://github.com/Surya2004-janardhan/AdtFoods"
   },
@@ -24,7 +22,6 @@ const projects = [
     title: "AI Sensei",
     description: "Leveraged Groq API for instant context-aware Japanese tutoring via vector similarity search, coupled with Socket.IO real-time language exchange.",
     tech: ["React.js", "Node.js", "MongoDB", "Groq API", "Socket.IO"],
-    // Random Tech AI Grid GIF
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
     github: "https://github.com/Surya2004-janardhan/AI-sensei"
   },
@@ -62,50 +59,92 @@ export default function Projects() {
   return (
     <section id="projects" className="py-24 relative z-10 bg-black">
       <div className="container px-6 mx-auto">
+        {/* Heading with gradient wipe animation */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.7, type: "spring" }}
           className="mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-white w-fit">Featured Projects</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl">Some of the recent things I&apos;ve built, solving real user problems.</p>
+          <motion.p
+            className="text-muted-foreground text-lg max-w-2xl"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            Some of the recent things I&apos;ve built, solving real user problems.
+          </motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {projects.map((project, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="glass rounded-3xl p-6 group hover:skew-y-1 hover:-translate-y-2 transition-transform duration-300 flex flex-col h-full hover:border-primary/50 relative overflow-hidden"
+              initial={{ opacity: 0, y: 60, rotateX: -10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{
+                duration: 0.6,
+                delay: i * 0.08,
+                type: "spring",
+                stiffness: 80,
+              }}
+              whileHover={{ y: -12, transition: { duration: 0.3 } }}
+              className="glass rounded-3xl p-6 group transition-all duration-300 flex flex-col h-full hover:border-primary/50 relative overflow-hidden"
+              style={{ perspective: 800 }}
             >
+              {/* Animated gradient overlay on hover */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/10 z-0 pointer-events-none"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0 pointer-events-none" />
               
-              <div className="w-full h-56 rounded-2xl mb-6 relative overflow-hidden flex items-center justify-center border border-white/10 z-10 bg-black">
-                {/* Random code/tech GIFs explicitly requested by user */}
+              {/* Image with clip-path reveal */}
+              <motion.div
+                className="w-full h-56 rounded-2xl mb-6 relative overflow-hidden flex items-center justify-center border border-white/10 z-10 bg-black"
+                initial={{ clipPath: "inset(0 100% 0 0)" }}
+                whileInView={{ clipPath: "inset(0 0% 0 0)" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 + i * 0.05, ease: "easeOut" }}
+              >
                 <img src={project.image} alt={project.title} loading="lazy" className="object-cover w-full h-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
-              </div>
+              </motion.div>
               
               <h3 className="text-2xl font-bold mb-3 z-10 leading-tight group-hover:text-primary transition-colors">{project.title}</h3>
               <p className="text-muted-foreground mb-6 flex-grow z-10">{project.description}</p>
               
+              {/* Tech tags with staggered pop-in */}
               <div className="flex flex-wrap gap-2 mb-6 z-10">
-                {project.tech.map((t) => (
-                  <span key={t} className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md border border-white/10 rounded-lg group-hover:border-primary/30 group-hover:text-primary transition-colors">
+                {project.tech.map((t, ti) => (
+                  <motion.span
+                    key={t}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.4 + ti * 0.06, type: "spring" }}
+                    className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md border border-white/10 rounded-lg group-hover:border-primary/30 group-hover:text-primary transition-colors"
+                  >
                     {t}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
 
               <div className="flex items-center gap-4 mt-auto z-10 pt-4 border-t border-white/10">
-                <a href={project.github} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+                <motion.a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                  whileHover={{ x: 5 }}
+                >
                   <Code size={20} />
                   <span className="font-medium">View Source Code</span>
-                </a>
+                </motion.a>
               </div>
             </motion.div>
           ))}

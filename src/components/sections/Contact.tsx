@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Code, Briefcase, Send } from "lucide-react";
+import { Mail, Code, Briefcase } from "lucide-react";
 
 export default function Contact() {
   return (

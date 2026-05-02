@@ -4,24 +4,34 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { useRef } from "react";
 
-// Floating particle component for background atmosphere
-function FloatingParticle({ delay, x, y, size }: { delay: number; x: string; y: string; size: number }) {
+// Orbiting ring of tech keywords
+function OrbitRing({ radius, duration, items, reverse = false }: { radius: number; duration: number; items: string[]; reverse?: boolean }) {
   return (
     <motion.div
-      className="absolute rounded-full bg-primary/20"
-      style={{ left: x, top: y, width: size, height: size }}
-      animate={{
-        y: [0, -30, 0],
-        opacity: [0.2, 0.6, 0.2],
-        scale: [1, 1.3, 1],
-      }}
-      transition={{
-        duration: 4 + Math.random() * 3,
-        repeat: Infinity,
-        delay,
-        ease: "easeInOut",
-      }}
-    />
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.03]"
+      style={{ width: radius * 2, height: radius * 2 }}
+      animate={{ rotate: reverse ? -360 : 360 }}
+      transition={{ duration, repeat: Infinity, ease: "linear" }}
+    >
+      {items.map((item, i) => {
+        const angle = (360 / items.length) * i;
+        return (
+          <motion.span
+            key={item}
+            className="absolute text-[10px] md:text-xs font-mono text-white/20 whitespace-nowrap select-none"
+            style={{
+              left: '50%',
+              top: '50%',
+              transform: `rotate(${angle}deg) translateX(${radius}px) rotate(-${angle}deg)`,
+            }}
+            animate={{ rotate: reverse ? 360 : -360 }}
+            transition={{ duration, repeat: Infinity, ease: "linear" }}
+          >
+            {item}
+          </motion.span>
+        );
+      })}
+    </motion.div>
   );
 }
 
@@ -29,150 +39,128 @@ export default function Hero() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
-  // Parallax effects
-  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 45]);
 
-  // Individual letter animation for the name
-  const nameLetters = "Surya".split("");
-  const lastNameLetters = "Janardhan".split("");
+  const nameLetters = "SURYA".split("");
+  const lastNameLetters = "JANARDHAN".split("");
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Floating particles */}
-      <FloatingParticle delay={0} x="10%" y="20%" size={6} />
-      <FloatingParticle delay={0.5} x="80%" y="15%" size={4} />
-      <FloatingParticle delay={1} x="60%" y="70%" size={8} />
-      <FloatingParticle delay={1.5} x="25%" y="60%" size={5} />
-      <FloatingParticle delay={2} x="90%" y="45%" size={3} />
-      <FloatingParticle delay={2.5} x="45%" y="85%" size={7} />
-      <FloatingParticle delay={0.8} x="15%" y="75%" size={4} />
-      <FloatingParticle delay={1.2} x="70%" y="30%" size={6} />
-
-      {/* Animated grid lines background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,215,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,215,0,0.3) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-          animate={{ backgroundPosition: ['0px 0px', '60px 60px'] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
+    <section ref={ref} className="relative min-h-[120vh] flex items-center justify-center overflow-hidden">
+      {/* Orbiting tech rings */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <OrbitRing radius={220} duration={40} items={["PYTHON", "REACT", "NEXT.JS", "NODE", "AI", "ML"]} />
+        <OrbitRing radius={340} duration={55} items={["LANGCHAIN", "RAG", "DOCKER", "REDIS", "KAFKA", "TYPESCRIPT", "MONGODB", "GROQ"]} reverse />
+        <OrbitRing radius={460} duration={70} items={["FULL-STACK", "AI-AGENTS", "DEEP-LEARNING", "POSTGRESQL", "EXPRESS", "FLASK"]} />
       </div>
 
-      {/* Background glow shadow */}
-      <div className="absolute inset-0 z-0">
+      {/* Center reticle crosshair */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/10 rounded-full mix-blend-screen filter blur-[128px]"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full mix-blend-screen filter blur-[128px]"
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.05, 0.1, 0.05] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-[500px] h-[500px] rounded-full border border-primary/10"
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 4, repeat: Infinity }}
         />
       </div>
 
       <motion.div
         className="container relative z-10 px-6 mx-auto text-center"
-        style={{ y: yText, opacity, scale }}
+        style={{ y: yText, opacity, scale, rotateX, perspective: 1000 }}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 120 }}
+          transition={{ duration: 0.8, type: "spring", stiffness: 80 }}
         >
-          <span className="inline-block py-1 px-3 mb-6 rounded-full bg-yellow-400/10 text-yellow-500 text-sm font-medium border border-yellow-400/20">
-            Available for AI &amp; Full Stack Roles
+          <span className="inline-block py-1.5 px-4 mb-8 rounded-full bg-primary/10 text-primary text-xs font-mono uppercase tracking-[0.3em] border border-primary/20">
+            // Open to opportunities
           </span>
         </motion.div>
 
-        {/* Letter-by-letter name reveal */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-white">
-          {nameLetters.map((letter, i) => (
-            <motion.span
-              key={`first-${i}`}
-              initial={{ opacity: 0, y: 40, rotateX: -90 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.05, type: "spring", stiffness: 100 }}
-              className="inline-block"
-            >
-              {letter}
-            </motion.span>
-          ))}
-          <span className="mr-4 md:mr-6"></span>
-          {lastNameLetters.map((letter, i) => (
-            <motion.span
-              key={`last-${i}`}
-              initial={{ opacity: 0, y: 40, rotateX: -90 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 + i * 0.05, type: "spring", stiffness: 100 }}
-              className="inline-block text-primary"
-            >
-              {letter}
-            </motion.span>
-          ))}
-        </h1>
+        {/* Massive split name with stagger */}
+        <div className="mb-4 overflow-hidden">
+          <div className="flex items-center justify-center gap-1 md:gap-2">
+            {nameLetters.map((letter, i) => (
+              <motion.span
+                key={`f-${i}`}
+                className="text-6xl md:text-[10rem] lg:text-[12rem] font-black leading-none text-white tracking-tighter"
+                initial={{ y: 200, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.1 + i * 0.06, type: "spring", stiffness: 60, damping: 12 }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </div>
+        </div>
+        <div className="mb-10 overflow-hidden">
+          <div className="flex items-center justify-center gap-0.5 md:gap-1">
+            {lastNameLetters.map((letter, i) => (
+              <motion.span
+                key={`l-${i}`}
+                className="text-4xl md:text-6xl lg:text-8xl font-black leading-none text-primary tracking-[0.1em]"
+                initial={{ y: 200, opacity: 0, rotateZ: 15 }}
+                animate={{ y: 0, opacity: 1, rotateZ: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 + i * 0.04, type: "spring", stiffness: 60, damping: 12 }}
+              >
+                {letter}
+              </motion.span>
+            ))}
+          </div>
+        </div>
 
         <motion.p
-          className="text-lg md:text-xl text-muted-foreground mx-auto max-w-2xl mb-12"
-          initial={{ opacity: 0, filter: "blur(10px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 0.8, delay: 1.2 }}
+          className="text-base md:text-lg text-white/40 font-mono mx-auto max-w-xl mb-12 tracking-wide"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
         >
-          I&apos;m an AI Intern and Full Stack Engineer specializing in deploying
-          autonomous AI agents, RAG pipelines, and building robust Full Stack applications.
+          AI Intern · Full Stack Engineer · Deploying autonomous agents, RAG pipelines, and robust production systems.
         </motion.p>
 
         <motion.div
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.5, type: "spring" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.8 }}
         >
           <motion.a
             href="#projects"
-            className="group flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background rounded-full font-semibold hover:bg-foreground/90 transition-all w-full sm:w-auto"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255,215,0,0.3)" }}
+            className="group flex items-center justify-center gap-2 px-8 py-4 bg-primary text-black rounded-full font-bold tracking-wide hover:bg-primary/90 transition-all w-full sm:w-auto"
+            whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255,215,0,0.4)" }}
             whileTap={{ scale: 0.95 }}
           >
             View My Work
-            <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
+            <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
           </motion.a>
           <motion.a
             href="#"
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-white/5 border border-white/10 rounded-full font-semibold hover:bg-white/10 transition-all w-full sm:w-auto"
-            whileHover={{ scale: 1.05, borderColor: "rgba(255,215,0,0.5)" }}
+            className="flex items-center justify-center gap-2 px-8 py-4 border border-white/10 rounded-full font-bold text-white/60 hover:text-white hover:border-white/30 transition-all w-full sm:w-auto"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <Download size={20} />
-            Download Resume
+            Resume
           </motion.a>
         </motion.div>
+      </motion.div>
 
-        {/* Scroll indicator */}
+      {/* Scroll cue */}
+      <motion.div
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.4 }}
+        transition={{ delay: 2.5 }}
+      >
+        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/30">Scroll</span>
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-        >
-          <motion.div
-            className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center"
-            animate={{ borderColor: ["rgba(255,255,255,0.2)", "rgba(255,215,0,0.5)", "rgba(255,255,255,0.2)"] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1.5 h-3 bg-primary rounded-full mt-2"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </motion.div>
-        </motion.div>
+          className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent"
+          animate={{ scaleY: [0, 1, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          style={{ transformOrigin: "top" }}
+        />
       </motion.div>
     </section>
   );
