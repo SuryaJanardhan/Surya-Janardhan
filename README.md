@@ -2,6 +2,8 @@
 
 **Author:** Surya Janardhan Chintala
 
+Live Link : https://surya2004-janardhan.github.io/AI-Portfolio-Task/
+
 ## Project Description
 A highly advanced, fully responsive personal portfolio designed and engineered from scratch. This application serves as a central hub for exploring my skills as a Full Stack Developer and AI ML Engineer. It features deep integration with custom Framer Motion physics-based scrolling aesthetics, custom component architecture, and full adherence to performance/accessibility standards like `prefers-reduced-motion` compliance.
 
