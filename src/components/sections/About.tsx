@@ -1,154 +1,128 @@
 "use client";
 
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { GraduationCap, Briefcase, Code2 } from "lucide-react";
 import { useRef } from "react";
-
-// 3D tilt card wrapper
-function TiltCard({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const rotateX = useTransform(y, [-0.5, 0.5], [8, -8]);
-  const rotateY = useTransform(x, [-0.5, 0.5], [-8, 8]);
-
-  function handleMouse(e: React.MouseEvent) {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-  }
-
-  function handleLeave() {
-    x.set(0);
-    y.set(0);
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouse}
-      onMouseLeave={handleLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      initial={{ opacity: 0, x: -60, rotateZ: -3 }}
-      whileInView={{ opacity: 1, x: 0, rotateZ: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, type: "spring", stiffness: 80 }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 const cards = [
   {
     icon: GraduationCap,
     title: "Education",
-    description: "B.Tech in Artificial Intelligence & Machine Learning at Aditya College of Engineering.",
+    description: "B.Tech in AI & ML at Aditya College of Engineering.",
     badge: "CGPA: 8.5/10.0",
-    accentClass: "from-white/5 to-transparent",
-    iconBg: "bg-primary/10",
-    borderClass: "hover:border-primary/50",
-    delay: 0.1,
   },
   {
     icon: Briefcase,
     title: "Experience",
-    description: <>AI Intern at <span className="text-white">GrowStack.ai</span>. Deployed 20+ production-ready AI agents and RAG pipelines.</>,
+    description: "AI Intern at GrowStack.ai. Deployed 20+ production AI agents and RAG pipelines.",
     badge: "70% Manual Effort Slashed",
-    accentClass: "from-primary/10 to-transparent",
-    iconBg: "bg-primary/20",
-    borderClass: "border-primary/30 hover:border-primary",
     featured: true,
-    delay: 0.25,
   },
   {
     icon: Code2,
-    title: "Algorithmic Excellence",
-    description: "A deep love for coding challenges. Demonstrated strong analytical abilities in algorithms.",
+    title: "Problem Solving",
+    description: "Deep love for algorithmic challenges. Strong analytical abilities.",
     badge: "800+ Problems Solved",
-    accentClass: "from-white/5 to-transparent",
-    iconBg: "bg-primary/10",
-    borderClass: "hover:border-primary/50",
-    delay: 0.4,
   },
 ];
 
 export default function About() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"] });
+
+  // Arc path: cards fan out in an arc as user scrolls
+  const card0Rotate = useTransform(scrollYProgress, [0.1, 0.5], [-15, 0]);
+  const card0X = useTransform(scrollYProgress, [0.1, 0.5], [-80, 0]);
+  const card1Y = useTransform(scrollYProgress, [0.1, 0.5], [60, 0]);
+  const card2Rotate = useTransform(scrollYProgress, [0.1, 0.5], [15, 0]);
+  const card2X = useTransform(scrollYProgress, [0.1, 0.5], [80, 0]);
+
+  const cardTransforms = [
+    { rotate: card0Rotate, x: card0X, y: 0 },
+    { rotate: 0, x: 0, y: card1Y },
+    { rotate: card2Rotate, x: card2X, y: 0 },
+  ];
+
   return (
-    <section id="about" className="py-28 relative z-10 bg-[#060606] border-y border-white/5">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-black/0 to-black/0 pointer-events-none" />
+    <section ref={containerRef} id="about" className="py-32 relative z-10 bg-[#060606] overflow-hidden">
+      {/* Large faded background text */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[15vw] font-black text-white/[0.02] tracking-tighter whitespace-nowrap">ABOUT ME</span>
+      </div>
+
       <div className="container px-6 mx-auto relative z-10">
-        {/* Section heading with horizontal line slide animation */}
+        {/* Section heading - left aligned, editorial style */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="mb-20 max-w-3xl"
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.8, type: "spring" }}
         >
-          <motion.div
-            className="flex items-center justify-center gap-4 mb-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+          <motion.span
+            className="text-primary font-mono text-sm tracking-[0.3em] uppercase mb-4 block"
+            initial={{ opacity: 0, letterSpacing: "0.6em" }}
+            whileInView={{ opacity: 1, letterSpacing: "0.3em" }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            <motion.span
-              className="h-[1px] bg-gradient-to-r from-transparent to-primary/50 inline-block"
-              initial={{ width: 0 }}
-              whileInView={{ width: 80 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            />
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight">About <span className="text-primary">Me</span></h2>
-            <motion.span
-              className="h-[1px] bg-gradient-to-l from-transparent to-primary/50 inline-block"
-              initial={{ width: 0 }}
-              whileInView={{ width: 80 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            />
-          </motion.div>
-          <motion.p
-            className="text-muted-foreground text-lg max-w-2xl mx-auto"
-            initial={{ opacity: 0, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, filter: "blur(0px)" }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            Bridging the gap between intelligent AI systems and robust Full-Stack architecture.
-          </motion.p>
+            {/* {"// who am i"} No need */}
+          </motion.span>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+            Bridging AI <span className="text-primary">&</span> Engineering
+          </h2>
+          <p className="text-white/60 text-lg md:text-xl leading-relaxed">
+            I build things end-to-end — from schema design to deployment. Specializing in 
+            intelligent systems that solve real problems at scale.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto" style={{ perspective: 1000 }}>
-          {cards.map((card) => (
-            <TiltCard
+        {/* Arc-fanning cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto" style={{ perspective: 1200 }}>
+          {cards.map((card, i) => (
+            <motion.div
               key={card.title}
-              delay={card.delay}
-              className={`glass p-10 rounded-3xl flex flex-col items-center text-center transition-all duration-300 group hover:-translate-y-2 bg-gradient-to-b ${card.accentClass} ${card.borderClass} ${card.featured ? 'relative overflow-hidden' : ''}`}
+              style={{
+                rotate: cardTransforms[i].rotate,
+                x: cardTransforms[i].x,
+                y: cardTransforms[i].y,
+              }}
+              initial={{ opacity: 0, y: 100, rotateX: -20 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.7, delay: i * 0.15, type: "spring", stiffness: 70 }}
+              whileHover={{ y: -20, rotateZ: 0, scale: 1.04, transition: { duration: 0.3 } }}
+              className={`relative p-10 rounded-3xl flex flex-col items-start text-left cursor-default
+                ${card.featured 
+                  ? 'bg-primary/[0.08] border-2 border-primary/30 hover:border-primary' 
+                  : 'bg-white/[0.03] border border-white/[0.06] hover:border-primary/40'
+                } transition-colors duration-300 group`}
             >
-              {card.featured && (
-                <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors pointer-events-none" />
-              )}
+              {/* Corner accent */}
+              <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden rounded-tr-3xl">
+                <div className={`absolute top-0 right-0 w-px h-full ${card.featured ? 'bg-gradient-to-b from-primary/50 to-transparent' : 'bg-gradient-to-b from-white/10 to-transparent'}`} />
+                <div className={`absolute top-0 right-0 h-px w-full ${card.featured ? 'bg-gradient-to-l from-primary/50 to-transparent' : 'bg-gradient-to-l from-white/10 to-transparent'}`} />
+              </div>
+
               <motion.div
-                className={`w-20 h-20 ${card.iconBg} rounded-2xl flex items-center justify-center mb-8 z-10 shadow-[0_0_30px_-5px_rgba(255,215,0,0.3)]`}
-                whileHover={{ scale: 1.2, rotate: 12 }}
-                transition={{ type: "spring", stiffness: 200 }}
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${card.featured ? 'bg-primary/20' : 'bg-white/[0.06]'}`}
+                whileHover={{ rotate: 360, scale: 1.1 }}
+                transition={{ duration: 0.6 }}
               >
-                <card.icon size={40} className="text-primary" />
+                <card.icon size={32} className={card.featured ? "text-primary" : "text-white/60"} />
               </motion.div>
-              <h3 className="text-2xl font-bold mb-4 z-10">{card.title}</h3>
-              <p className="text-muted-foreground mb-8 text-lg z-10">{card.description}</p>
+
+              <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">{card.title}</h3>
+              <p className="text-white/60 mb-8 text-base leading-relaxed flex-grow">{card.description}</p>
+              
               <motion.span
-                className="font-bold text-black px-6 py-2 bg-primary rounded-full text-sm z-10 shadow-[0_0_20px_rgba(255,215,0,0.4)] mt-auto"
-                whileHover={{ scale: 1.1, boxShadow: "0 0 35px rgba(255,215,0,0.6)" }}
+                className={`font-bold px-5 py-2 rounded-full text-xs tracking-wider uppercase
+                  ${card.featured ? 'bg-primary text-black' : 'bg-white/[0.06] text-white/60 group-hover:bg-primary group-hover:text-black'} transition-all`}
+                whileHover={{ scale: 1.1 }}
               >
                 {card.badge}
               </motion.span>
-            </TiltCard>
+            </motion.div>
           ))}
         </div>
       </div>

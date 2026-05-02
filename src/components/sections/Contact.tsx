@@ -1,112 +1,160 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, Code, Briefcase } from "lucide-react";
+import { useRef } from "react";
+
+const links = [
+  {
+    icon: Mail,
+    title: "Email",
+    value: "chintalajanardhan2004@gmail.com",
+    href: "mailto:chintalajanardhan2004@gmail.com",
+    color: "primary",
+  },
+  {
+    icon: Code,
+    title: "GitHub",
+    value: "Surya2004-janardhan",
+    href: "https://github.com/Surya2004-janardhan",
+    color: "white",
+  },
+  {
+    icon: Briefcase,
+    title: "LinkedIn",
+    value: "surya-janardhan",
+    href: "https://www.linkedin.com/in/surya-janardhan/",
+    color: "blue",
+  },
+];
 
 export default function Contact() {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const bgRotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
+
   return (
-    <section id="contact" className="py-24 relative z-10 bg-black/40 border-t border-white/5">
-      <div className="container px-6 mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Get In <span className="text-primary">Touch</span></h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">I&apos;m currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is always open.</p>
-        </motion.div>
+    <section ref={sectionRef} id="contact" className="py-32 relative z-10 bg-black overflow-hidden">
+      {/* Rotating accent shape */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none"
+        style={{ rotate: bgRotate }}
+      >
+        <div className="w-full h-full rounded-full border border-primary/[0.05]" />
+        <div className="absolute inset-8 rounded-full border border-primary/[0.03]" />
+        <div className="absolute inset-16 rounded-full border border-white/[0.02]" />
+      </motion.div>
 
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-          
-          <motion.div 
-            className="flex flex-col gap-6 justify-center"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+      <div className="container px-6 mx-auto relative z-10">
+        <div className="max-w-4xl mx-auto">
+          {/* Main CTA */}
+          <motion.div
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, type: "spring" }}
           >
-            <a href="mailto:chintalajanardhan2004@gmail.com" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group border hover:border-primary/50">
-              <div className="p-4 bg-primary/20 rounded-full text-primary group-hover:scale-110 transition-transform">
-                <Mail size={24} />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">Email Me</h3>
-                <p className="text-muted-foreground w-full truncate">chintalajanardhan2004@gmail.com</p>
-              </div>
-            </a>
-            
-            <a href="https://github.com/Surya2004-janardhan" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group">
-              <div className="p-4 bg-white/10 rounded-full text-white group-hover:scale-110 transition-transform">
-                <Code size={24} />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">GitHub</h3>
-                <p className="text-muted-foreground">Check out my open source code.</p>
-              </div>
-            </a>
-
-            <a href="https://www.linkedin.com/in/surya-janardhan/" target="_blank" rel="noreferrer" className="flex items-center gap-4 p-6 glass rounded-xl hover:bg-white/10 transition-colors group border hover:border-primary/50">
-              <div className="p-4 bg-blue-500/20 rounded-full text-blue-400 group-hover:scale-110 transition-transform">
-                <Briefcase size={24} />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg">LinkedIn</h3>
-                <p className="text-muted-foreground">Let&apos;s connect professionally.</p>
-              </div>
-            </a>
+            <motion.span
+              className="text-primary font-mono text-sm tracking-[0.3em] uppercase mb-6 block"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              {/* {`// let's connect`} */}
+            </motion.span>
+            <motion.h2
+              className="text-5xl md:text-7xl font-black tracking-tight mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, type: "spring" }}
+            >
+              Get In <span className="text-primary">Touch</span>
+            </motion.h2>
+            <motion.p
+              className="text-white/50 text-lg max-w-lg mx-auto font-mono"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
+              Currently looking for new opportunities. My inbox is always open.
+            </motion.p>
           </motion.div>
 
-          <motion.div 
-            className="glass rounded-3xl p-10 flex flex-col justify-between h-full relative overflow-hidden group border-primary/20 hover:border-primary/50 transition-colors"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+          {/* Contact links as horizontal cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            {links.map((link, i) => (
+              <motion.a
+                key={link.title}
+                href={link.href}
+                target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                rel="noreferrer"
+                className="group relative p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-primary/40 transition-all duration-300 text-center"
+                initial={{ opacity: 0, y: 40, rotateZ: i === 0 ? -3 : i === 2 ? 3 : 0 }}
+                whileInView={{ opacity: 1, y: 0, rotateZ: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 + i * 0.15, type: "spring" }}
+                whileHover={{ y: -10, scale: 1.03, transition: { duration: 0.3 } }}
+              >
+                <motion.div
+                  className={`w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center ${
+                    link.color === "primary" ? "bg-primary/10 text-primary" :
+                    link.color === "blue" ? "bg-blue-500/10 text-blue-400" :
+                    "bg-white/[0.06] text-white/60"
+                  }`}
+                  whileHover={{ rotate: 12, scale: 1.1 }}
+                >
+                  <link.icon size={24} />
+                </motion.div>
+                <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors">{link.title}</h3>
+                <p className="text-white/50 text-sm font-mono truncate">{link.value}</p>
+              </motion.a>
+            ))}
+          </div>
+
+          {/* Status board */}
+          <motion.div
+            className="relative rounded-3xl bg-white/[0.02] border border-white/[0.06] p-10 md:p-14 overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none group-hover:bg-primary/20 transition-colors duration-700" />
-            
-            <div>
-              <div className="flex items-center gap-3 mb-8">
-                <span className="relative flex h-4 w-4">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-primary"></span>
-                </span>
-                <h3 className="text-2xl font-bold tracking-tight text-white">Status Board</h3>
+            {/* Corner glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -mr-32 -mt-32 pointer-events-none" />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                  </span>
+                  <span className="text-xs font-mono text-white/50 uppercase tracking-wider">Availability</span>
+                </div>
+                <p className="text-white font-medium text-lg">Open to opportunities</p>
               </div>
 
-              <div className="space-y-6">
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold mb-1">Availability</p>
-                  <p className="text-lg font-medium text-white flex items-center gap-2">
-                    Actively seeking new opportunities
-                  </p>
-                </div>
-                
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold mb-1">Current Focus</p>
-                  <p className="text-lg font-medium text-white">
-                    Agentic Workflows, Next.js Architectures
-                  </p>
-                </div>
+              <div>
+                <span className="text-xs font-mono text-white/50 uppercase tracking-wider block mb-2">Current Focus</span>
+                <p className="text-white font-medium text-lg">Agentic Workflows & Next.js</p>
+              </div>
 
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wider font-semibold mb-1">Location</p>
-                  <p className="text-lg font-medium text-white">
-                    Andhra Pradesh, India (Open to Remote)
-                  </p>
-                </div>
+              <div>
+                <span className="text-xs font-mono text-white/50 uppercase tracking-wider block mb-2">Location</span>
+                <p className="text-white font-medium text-lg">India · Open to Remote</p>
               </div>
             </div>
 
-            <div className="mt-10 pt-8 border-t border-white/10">
-              <p className="text-muted-foreground italic">
-                &quot;I build things end-to-end from schema design to deployment. Let&apos;s build something incredible together.&quot;
+            <div className="mt-10 pt-8 border-t border-white/[0.04]">
+              <p className="text-white/40 font-mono text-sm italic">
+                &quot;I build things end-to-end from schema design to deployment.&quot;
               </p>
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

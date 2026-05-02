@@ -18,7 +18,7 @@ function OrbitRing({ radius, duration, items, reverse = false }: { radius: numbe
         return (
           <motion.span
             key={item}
-            className="absolute text-[10px] md:text-xs font-mono text-white/20 whitespace-nowrap select-none"
+            className="absolute text-[10px] md:text-xs font-mono text-white/35 whitespace-nowrap select-none"
             style={{
               left: '50%',
               top: '50%',
@@ -75,7 +75,7 @@ export default function Hero() {
           transition={{ duration: 0.8, type: "spring", stiffness: 80 }}
         >
           <span className="inline-block py-1.5 px-4 mb-8 rounded-full bg-primary/10 text-primary text-xs font-mono uppercase tracking-[0.3em] border border-primary/20">
-            // Open to opportunities
+            {/* {"// open to opportunities"} No need this section */}
           </span>
         </motion.div>
 
@@ -112,7 +112,7 @@ export default function Hero() {
         </div>
 
         <motion.p
-          className="text-base md:text-lg text-white/40 font-mono mx-auto max-w-xl mb-12 tracking-wide"
+          className="text-base md:text-lg text-white/60 font-mono mx-auto max-w-xl mb-12 tracking-wide"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
@@ -154,7 +154,7 @@ export default function Hero() {
         animate={{ opacity: 0.4 }}
         transition={{ delay: 2.5 }}
       >
-        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/30">Scroll</span>
+        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/50">Scroll</span>
         <motion.div
           className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent"
           animate={{ scaleY: [0, 1, 0] }}

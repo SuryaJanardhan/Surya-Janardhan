@@ -1,152 +1,207 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Code } from "lucide-react";
 
 const projects = [
   {
-    title: "Dreams - Autonomous AI Video Production",
-    description: "Architected an autonomous system producing 60+ monthly lip-synced videos across YT and IG, eliminating 100% manual effort using Gemini 2.0 Pro and Qwen3-TTS.",
+    title: "Dreams",
+    subtitle: "Autonomous AI Video Production",
+    description: "60+ monthly lip-synced videos across YT & IG. Zero manual effort. Gemini 2.0 Pro + Qwen3-TTS.",
     tech: ["Node.js", "Python", "React", "Gemini 2.0", "FFmpeg"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
-    github: "https://github.com/Surya2004-janardhan/Dreams"
+    github: "https://github.com/Surya2004-janardhan/Dreams",
+    num: "01",
   },
   {
     title: "Aditya Foods",
-    description: "Developed a full-stack mobile food ordering app with a secure Node.js backend, REST APIs, Razorpay integration, and an optimized Redis caching layer.",
+    subtitle: "Full-Stack Mobile App",
+    description: "Food ordering app with Node.js backend, REST APIs, Razorpay, and Redis caching.",
     tech: ["React Native", "Node.js", "SQL", "Redis", "Expo"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
-    github: "https://github.com/Surya2004-janardhan/AdtFoods"
+    github: "https://github.com/Surya2004-janardhan/AdtFoods",
+    num: "02",
   },
   {
     title: "AI Sensei",
-    description: "Leveraged Groq API for instant context-aware Japanese tutoring via vector similarity search, coupled with Socket.IO real-time language exchange.",
+    subtitle: "Intelligent Language Tutor",
+    description: "Groq API for instant context-aware Japanese tutoring with vector search & Socket.IO exchange.",
     tech: ["React.js", "Node.js", "MongoDB", "Groq API", "Socket.IO"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
-    github: "https://github.com/Surya2004-janardhan/AI-sensei"
+    github: "https://github.com/Surya2004-janardhan/AI-sensei",
+    num: "03",
   },
   {
-    title: "Redis Game Leaderboard",
-    description: "A production-style backend service for real-time game leaderboards powered by Redis, Express, and TypeScript.",
+    title: "Redis Leaderboard",
+    subtitle: "Real-Time Game Backend",
+    description: "Production-style leaderboard service with atomic operations and real-time updates.",
     tech: ["TypeScript", "Redis", "Express"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/Redis-Powered-Game-Leaderboard-with-Atomic-Operations-and-Real-Time-Updates"
+    github: "https://github.com/Surya2004-janardhan/Redis-Powered-Game-Leaderboard-with-Atomic-Operations-and-Real-Time-Updates",
+    num: "04",
   },
   {
-    title: "High-Performance File Transfer",
-    description: "A robust, production-grade file transfer service for large files (1GB+) with chunked uploading, resumability, and memory-efficient streaming.",
+    title: "Chunked Transfer",
+    subtitle: "High-Performance File Service",
+    description: "Production-grade 1GB+ file transfer with chunked uploads, resumability & streaming.",
     tech: ["TypeScript", "API", "Streaming"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/High-Performance-Large-File-Transfer-Service-with-Chunked-Uploads"
+    github: "https://github.com/Surya2004-janardhan/High-Performance-Large-File-Transfer-Service-with-Chunked-Uploads",
+    num: "05",
   },
   {
-    title: "Emotion Stress Analyzer",
-    description: "Train a CNN and LSTM for cognitive layer-based emotion detection using audio and video from the RAVDESS dataset.",
+    title: "Emotion Analyzer",
+    subtitle: "CNN+LSTM Stress Detection",
+    description: "Cognitive emotion detection from audio & video using RAVDESS dataset.",
     tech: ["Python", "CNN", "LSTM", "RAVDESS"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/emotion-based-stress-analyzer-desktop-app"
+    github: "https://github.com/Surya2004-janardhan/emotion-based-stress-analyzer-desktop-app",
+    num: "06",
   },
   {
-    title: "IoT Sensor Analytics",
-    description: "A containerized IoT backend for ingesting, storing, and analyzing large-scale time-series sensor data using TimescaleDB and a TypeScript API.",
+    title: "IoT Analytics",
+    subtitle: "Sensor Data Platform",
+    description: "Containerized IoT backend for time-series sensor analytics with TimescaleDB.",
     tech: ["TypeScript", "TimescaleDB", "IoT", "Docker"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/An-ioT-Sensor-Analytics-Platform-with-TimescaleDB"
+    github: "https://github.com/Surya2004-janardhan/An-ioT-Sensor-Analytics-Platform-with-TimescaleDB",
+    num: "07",
   }
 ];
 
+// Individual project card with scroll-driven horizontal + arc movement
+function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+  const cardRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "center center"],
+  });
+
+  // Each card arcs in from a different angle
+  const isEven = index % 2 === 0;
+  const arcX = useTransform(scrollYProgress, [0, 1], [isEven ? -200 : 200, 0]);
+  const arcRotate = useTransform(scrollYProgress, [0, 1], [isEven ? -8 : 8, 0]);
+  const arcScale = useTransform(scrollYProgress, [0, 0.8], [0.8, 1]);
+  const arcOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      style={{ x: arcX, rotate: arcRotate, scale: arcScale, opacity: arcOpacity }}
+      className={`grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center py-12 md:py-16 border-b border-white/[0.04] group ${
+        isEven ? '' : 'md:direction-rtl'
+      }`}
+    >
+      {/* Number + Image side */}
+      <div className={`col-span-5 relative ${isEven ? 'md:order-1' : 'md:order-2'}`} style={{ direction: 'ltr' }}>
+        <span className="absolute -top-6 -left-2 text-[8rem] font-black text-white/[0.03] leading-none select-none z-0">
+          {project.num}
+        </span>
+        <motion.div
+          className="relative rounded-2xl overflow-hidden border border-white/[0.06] aspect-video bg-black z-10"
+          whileHover={{ scale: 1.03, borderColor: "rgba(255,215,0,0.3)" }}
+          transition={{ duration: 0.3 }}
+        >
+          <img
+            src={project.image}
+            alt={project.title}
+            loading="lazy"
+            className="object-cover w-full h-full opacity-50 group-hover:opacity-80 transition-opacity duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        </motion.div>
+      </div>
+
+      {/* Content side */}
+      <div className={`col-span-7 ${isEven ? 'md:order-2 md:pl-6' : 'md:order-1 md:pr-6'}`} style={{ direction: 'ltr' }}>
+        <motion.span className="text-primary font-mono text-xs tracking-[0.3em] uppercase mb-2 block">
+          {project.subtitle}
+        </motion.span>
+        <h3 className="text-3xl md:text-4xl font-black mb-4 tracking-tight group-hover:text-primary transition-colors duration-300">
+          {project.title}
+        </h3>
+        <p className="text-white/60 mb-6 text-base leading-relaxed max-w-lg">{project.description}</p>
+        
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.tech.map((t) => (
+            <span key={t} className="text-[11px] font-mono px-3 py-1.5 bg-white/[0.04] border border-white/[0.08] rounded-full text-white/50 group-hover:border-primary/30 group-hover:text-primary/80 transition-colors">
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <motion.a
+          href={project.github}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 text-white/60 hover:text-primary transition-colors font-mono text-sm group/link"
+          whileHover={{ x: 5 }}
+        >
+          <Code size={16} />
+          <span>View Source</span>
+          <motion.span
+            className="inline-block"
+            animate={{ x: [0, 4, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >→</motion.span>
+        </motion.a>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 relative z-10 bg-black">
-      <div className="container px-6 mx-auto">
-        {/* Heading with gradient wipe animation */}
+    <section id="projects" className="py-32 relative z-10 bg-black overflow-hidden">
+      {/* Giant background text */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+        <span className="text-[20vw] font-black text-white/[0.015] tracking-tighter whitespace-nowrap">WORK</span>
+      </div>
+
+      <div className="container px-6 mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, type: "spring" }}
-          className="mb-16"
+          className="mb-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-primary to-white w-fit">Featured Projects</h2>
+          <div>
+            <motion.span
+              className="text-primary font-mono text-sm tracking-[0.3em] uppercase mb-4 block"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              {/* {"// selected work"} */}
+            </motion.span>
+            <motion.h2
+              className="text-4xl md:text-6xl font-black tracking-tight"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+            >
+              Featured <span className="text-primary">Projects</span>
+            </motion.h2>
+          </div>
           <motion.p
-            className="text-muted-foreground text-lg max-w-2xl"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="text-white/50 font-mono text-sm max-w-xs"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ delay: 0.4 }}
           >
-            Some of the recent things I&apos;ve built, solving real user problems.
+            {projects.length} projects · Real problems · Production code
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Alternating arc-scrolling project cards */}
+        <div className="max-w-5xl mx-auto">
           {projects.map((project, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 60, rotateX: -10 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{
-                duration: 0.6,
-                delay: i * 0.08,
-                type: "spring",
-                stiffness: 80,
-              }}
-              whileHover={{ y: -12, transition: { duration: 0.3 } }}
-              className="glass rounded-3xl p-6 group transition-all duration-300 flex flex-col h-full hover:border-primary/50 relative overflow-hidden"
-              style={{ perspective: 800 }}
-            >
-              {/* Animated gradient overlay on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/10 z-0 pointer-events-none"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-0 pointer-events-none" />
-              
-              {/* Image with clip-path reveal */}
-              <motion.div
-                className="w-full h-56 rounded-2xl mb-6 relative overflow-hidden flex items-center justify-center border border-white/10 z-10 bg-black"
-                initial={{ clipPath: "inset(0 100% 0 0)" }}
-                whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 + i * 0.05, ease: "easeOut" }}
-              >
-                <img src={project.image} alt={project.title} loading="lazy" className="object-cover w-full h-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
-              </motion.div>
-              
-              <h3 className="text-2xl font-bold mb-3 z-10 leading-tight group-hover:text-primary transition-colors">{project.title}</h3>
-              <p className="text-muted-foreground mb-6 flex-grow z-10">{project.description}</p>
-              
-              {/* Tech tags with staggered pop-in */}
-              <div className="flex flex-wrap gap-2 mb-6 z-10">
-                {project.tech.map((t, ti) => (
-                  <motion.span
-                    key={t}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.4 + ti * 0.06, type: "spring" }}
-                    className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md border border-white/10 rounded-lg group-hover:border-primary/30 group-hover:text-primary transition-colors"
-                  >
-                    {t}
-                  </motion.span>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-4 mt-auto z-10 pt-4 border-t border-white/10">
-                <motion.a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
-                  whileHover={{ x: 5 }}
-                >
-                  <Code size={20} />
-                  <span className="font-medium">View Source Code</span>
-                </motion.a>
-              </div>
-            </motion.div>
+            <ProjectCard key={project.num} project={project} index={i} />
           ))}
         </div>
       </div>
