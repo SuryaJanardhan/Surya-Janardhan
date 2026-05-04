@@ -1,13 +1,16 @@
 const isGithubActions = process.env.GITHUB_ACTIONS || false;
 const repository = process.env.GITHUB_REPOSITORY ?? '';
-const repoSegments = repository.split('/').filter(Boolean);
-const repoName = repoSegments.length > 1 ? repoSegments[1] : '';
+const repoParts = repository.split('/');
+const [owner, repoName] = repoParts;
+const hasValidRepo = repoParts.length === 2 && owner && repoName;
 
-if (isGithubActions && !repoName) {
-  throw new Error('GITHUB_REPOSITORY must be set to "owner/repo" to deploy to GitHub Pages.');
+if (isGithubActions && !hasValidRepo) {
+  throw new Error(
+    `GITHUB_REPOSITORY is '${repository}' but must be in format 'owner/repo' to deploy to GitHub Pages.`
+  );
 }
 
-const basePath = isGithubActions && repoName ? `/${repoName}` : '';
+const basePath = isGithubActions && hasValidRepo ? `/${repoName}` : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
