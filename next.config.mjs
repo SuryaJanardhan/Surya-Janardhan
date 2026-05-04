@@ -1,8 +1,9 @@
 const isGithubActions = process.env.GITHUB_ACTIONS || false;
 const repository = process.env.GITHUB_REPOSITORY ?? '';
 const repoParts = repository.split('/');
-const hasValidRepo = repoParts.length === 2 && repoParts[0] && repoParts[1];
-const repoName = hasValidRepo ? repoParts[1] : '';
+const owner = repoParts[0]?.trim();
+const repoName = repoParts[1]?.trim() ?? '';
+const hasValidRepo = repoParts.length === 2 && owner && repoName;
 
 if (isGithubActions && !hasValidRepo) {
   throw new Error(
@@ -10,7 +11,7 @@ if (isGithubActions && !hasValidRepo) {
   );
 }
 
-const basePath = isGithubActions && hasValidRepo ? `/${repoName}` : '';
+const basePath = isGithubActions ? `/${repoName}` : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
