@@ -1,9 +1,26 @@
 const isGithubActions = process.env.GITHUB_ACTIONS || false;
+const repository = (process.env.GITHUB_REPOSITORY ?? '').trim();
+const repoParts = repository.split('/');
+const repoNamePattern = /^[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9])?$/;
+const hasValidRepo =
+  repoParts.length === 2 &&
+  repoNamePattern.test(repoParts[0]) &&
+  repoNamePattern.test(repoParts[1]);
+
+if (isGithubActions && !hasValidRepo) {
+  throw new Error(
+    `GITHUB_REPOSITORY is '${repository || 'undefined'}' but must be in format 'owner/repo' to deploy to GitHub Pages.`
+  );
+}
+
+const repoName = repoParts[1] ?? '';
+const basePath = isGithubActions && hasValidRepo ? `/${repoName}` : '';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: isGithubActions ? '/AI-Portfolio-Task' : '',
+  basePath,
+  assetPrefix: basePath,
   images: {
     unoptimized: true,
   },

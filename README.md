@@ -2,7 +2,7 @@
 
 **Author:** Surya Janardhan Chintala
 
-Live Link : https://surya2004-janardhan.github.io/AI-Portfolio-Task/
+Live Link : https://surya2004-janardhan.github.io/SuryaJanardhan/
 
 ## Project Description
 A highly advanced, fully responsive personal portfolio designed and engineered from scratch. This application serves as a central hub for exploring my skills as a Full Stack Developer and AI ML Engineer. It features deep integration with custom Framer Motion physics-based scrolling aesthetics, custom component architecture, and full adherence to performance/accessibility standards like `prefers-reduced-motion` compliance.
@@ -15,7 +15,7 @@ A highly advanced, fully responsive personal portfolio designed and engineered f
 - **Icons:** Lucide-React & React-Icons
 
 ## Live Deployment
-🌍 **Live Site:** [https://Surya2004-janardhan.github.io/AI-Portfolio-Task/](https://Surya2004-janardhan.github.io/AI-Portfolio-Task/)
+🌍 **Live Site:** [https://surya2004-janardhan.github.io/SuryaJanardhan/](https://surya2004-janardhan.github.io/SuryaJanardhan/)
 
 ## Running Locally
 
@@ -23,8 +23,8 @@ To run this project on your local machine:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Surya2004-janardhan/AI-Portfolio-Task.git
-   cd AI-Portfolio-Task
+   git clone https://github.com/Surya2004-janardhan/SuryaJanardhan.git
+   cd SuryaJanardhan
    ```
 
 2. **Install dependencies:**
