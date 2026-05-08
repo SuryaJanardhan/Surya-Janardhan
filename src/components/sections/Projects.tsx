@@ -10,7 +10,7 @@ const projects = [
     description: "60+ monthly lip-synced videos across YT & IG. Zero manual effort. Gemini 2.0 Pro + Qwen3-TTS.",
     tech: ["Node.js", "Python", "React", "Gemini 2.0", "FFmpeg"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
-    github: "https://github.com/Surya2004-janardhan/Dreams",
+    github: "https://github.com/SuryaJanardhan/Dreams",
     num: "01",
   },
   {
@@ -19,7 +19,7 @@ const projects = [
     description: "Food ordering app with Node.js backend, REST APIs, Razorpay, and Redis caching.",
     tech: ["React Native", "Node.js", "SQL", "Redis", "Expo"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
-    github: "https://github.com/Surya2004-janardhan/AdtFoods",
+    github: "https://github.com/SuryaJanardhan/AdtFoods",
     num: "02",
   },
   {
@@ -28,7 +28,7 @@ const projects = [
     description: "Groq API for instant context-aware Japanese tutoring with vector search & Socket.IO exchange.",
     tech: ["React.js", "Node.js", "MongoDB", "Groq API", "Socket.IO"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif", 
-    github: "https://github.com/Surya2004-janardhan/AI-sensei",
+    github: "https://github.com/SuryaJanardhan/AI-sensei",
     num: "03",
   },
   {
@@ -37,7 +37,7 @@ const projects = [
     description: "Production-style leaderboard service with atomic operations and real-time updates.",
     tech: ["TypeScript", "Redis", "Express"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/Redis-Powered-Game-Leaderboard-with-Atomic-Operations-and-Real-Time-Updates",
+    github: "https://github.com/SuryaJanardhan/Redis-Powered-Game-Leaderboard-with-Atomic-Operations-and-Real-Time-Updates",
     num: "04",
   },
   {
@@ -46,7 +46,7 @@ const projects = [
     description: "Production-grade 1GB+ file transfer with chunked uploads, resumability & streaming.",
     tech: ["TypeScript", "API", "Streaming"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/High-Performance-Large-File-Transfer-Service-with-Chunked-Uploads",
+    github: "https://github.com/SuryaJanardhan/High-Performance-Large-File-Transfer-Service-with-Chunked-Uploads",
     num: "05",
   },
   {
@@ -55,7 +55,7 @@ const projects = [
     description: "Cognitive emotion detection from audio & video using RAVDESS dataset.",
     tech: ["Python", "CNN", "LSTM", "RAVDESS"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/emotion-based-stress-analyzer-desktop-app",
+    github: "https://github.com/SuryaJanardhan/emotion-based-stress-analyzer-desktop-app",
     num: "06",
   },
   {
@@ -64,7 +64,7 @@ const projects = [
     description: "Containerized IoT backend for time-series sensor analytics with TimescaleDB.",
     tech: ["TypeScript", "TimescaleDB", "IoT", "Docker"],
     image: "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif",
-    github: "https://github.com/Surya2004-janardhan/An-ioT-Sensor-Analytics-Platform-with-TimescaleDB",
+    github: "https://github.com/SuryaJanardhan/An-ioT-Sensor-Analytics-Platform-with-TimescaleDB",
     num: "07",
   }
 ];
@@ -91,14 +91,6 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <motion.span
-            className="text-primary font-mono text-sm tracking-[0.3em] uppercase mb-4 block"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            {/* {"// selected work"} */}
-          </motion.span>
           <motion.h2
             className="text-4xl md:text-7xl font-black tracking-tight"
             initial={{ opacity: 0, y: 30 }}

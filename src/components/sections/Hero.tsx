@@ -1,91 +1,82 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { useRef } from "react";
 
-
 export default function Hero() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const { scrollYProgress } = useScroll({ 
+    target: ref, 
+    offset: ["start start", "end start"] 
+  });
 
-  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "80%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 45]);
+  const smoothScroll = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
+  
+  // Slow zoom in then gone effect
+  const scale = useTransform(smoothScroll, [0, 0.5, 1], [1, 1.2, 0.8]);
+  const opacity = useTransform(smoothScroll, [0, 0.8, 1], [1, 1, 0]);
+  const blur = useTransform(smoothScroll, [0, 0.8], [0, 10]);
+  const yText = useTransform(smoothScroll, [0, 1], ["0%", "30%"]);
 
   const nameLetters = "SURYA".split("");
   const lastNameLetters = "JANARDHAN".split("");
 
   return (
-    <section ref={ref} className="relative min-h-[120vh] flex items-center justify-center overflow-hidden">
-      {/* Clean concentric rings */}
+    <section ref={ref} className="relative min-h-[150vh] flex items-center justify-center overflow-hidden pt-20">
+      {/* 3D Background Atmosphere */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <motion.div
-          className="w-[440px] h-[440px] rounded-full border border-white/[0.03]"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="w-[1000px] h-[1000px] rounded-full border border-primary/5 shadow-[0_0_100px_rgba(255,215,0,0.02)]"
+          animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div
-          className="absolute w-[680px] h-[680px] rounded-full border border-white/[0.02]"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute w-[920px] h-[920px] rounded-full border border-white/[0.015]"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
-
-      {/* Center reticle crosshair */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-        <motion.div
-          className="w-[500px] h-[500px] rounded-full border border-primary/10"
-          animate={{ scale: [1, 1.05, 1] }}
-          transition={{ duration: 4, repeat: Infinity }}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,215,0,0.03),transparent_70%)]" />
       </div>
 
       <motion.div
         className="container relative z-10 px-6 mx-auto text-center"
-        style={{ y: yText, opacity, scale, rotateX, perspective: 1000 }}
+        style={{ scale, opacity, filter: `blur(${blur}px)`, y: yText, perspective: 1200 }}
       >
+        {/* macOS Style Status Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, type: "spring", stiffness: 80 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="inline-flex items-center gap-2 py-2 px-4 mb-12 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-2xl"
         >
-          <span className="inline-block py-1.5 px-4 mb-8 rounded-full bg-primary/10 text-primary text-xs font-mono uppercase tracking-[0.3em] border border-primary/20">
-            {/* {"// open to opportunities"} No need this section */}
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
+          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/60">
+            Available for new challenges
           </span>
         </motion.div>
 
-        {/* Massive split name with stagger */}
-        <div className="mb-4 overflow-hidden">
-          <div className="flex items-center justify-center gap-1 md:gap-2">
+        {/* Name with elegant staggered reveal */}
+        <div className="relative mb-8">
+          <div className="flex items-center justify-center gap-1 md:gap-3 mb-2">
             {nameLetters.map((letter, i) => (
               <motion.span
                 key={`f-${i}`}
-                className="text-6xl md:text-[10rem] lg:text-[12rem] font-black leading-none text-white tracking-tighter"
-                initial={{ y: 200, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.1 + i * 0.06, type: "spring", stiffness: 60, damping: 12 }}
+                className="text-7xl md:text-[12rem] font-black leading-none text-white tracking-tighter drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                initial={{ y: 100, opacity: 0, rotateX: -90 }}
+                animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                transition={{ duration: 1, delay: 0.8 + i * 0.08, type: "spring", stiffness: 50 }}
               >
                 {letter}
               </motion.span>
             ))}
           </div>
-        </div>
-        <div className="mb-10 overflow-hidden">
-          <div className="flex items-center justify-center gap-0.5 md:gap-1">
+          <div className="flex items-center justify-center gap-1 md:gap-2">
             {lastNameLetters.map((letter, i) => (
               <motion.span
                 key={`l-${i}`}
-                className="text-4xl md:text-6xl lg:text-8xl font-black leading-none text-primary tracking-[0.1em]"
-                initial={{ y: 200, opacity: 0, rotateZ: 15 }}
-                animate={{ y: 0, opacity: 1, rotateZ: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 + i * 0.04, type: "spring", stiffness: 60, damping: 12 }}
+                className="text-4xl md:text-[6rem] font-black leading-none text-primary/80 tracking-[0.05em]"
+                initial={{ y: 100, opacity: 0, rotateX: 90 }}
+                animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                transition={{ duration: 1, delay: 1.2 + i * 0.05, type: "spring", stiffness: 50 }}
               >
                 {letter}
               </motion.span>
@@ -93,57 +84,51 @@ export default function Hero() {
           </div>
         </div>
 
-        <motion.p
-          className="text-base md:text-lg text-white/60 font-mono mx-auto max-w-xl mb-12 tracking-wide"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-        >
-          spending most of my time on full-stack apps and AI systems, mostly things I wanted to exist and sometimes couldn&apos;t find.        </motion.p>
-
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="max-w-2xl mx-auto mb-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.8 }}
+          transition={{ duration: 1.5, delay: 2 }}
         >
-          <motion.a
-            href="#projects"
-            className="group flex items-center justify-center gap-2 px-8 py-4 bg-primary text-black rounded-full font-bold tracking-wide hover:bg-primary/90 transition-all w-full sm:w-auto"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255,215,0,0.4)" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            View My Work
-            <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
-          </motion.a>
-          <motion.a
-            href="https://drive.google.com/file/d/1iHSh3v_KGjj8Ay1q2IqePfb1LvzFmzg0/view?usp=sharing"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center gap-2 px-8 py-4 border border-white/10 rounded-full font-bold text-white/60 hover:text-white hover:border-white/30 transition-all w-full sm:w-auto"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Download size={20} />
-            Resume
-          </motion.a>
+          <p className="text-lg md:text-xl text-white/40 font-medium leading-relaxed mb-12">
+            Engineering high-performance AI systems and <span className="text-white/80">autonomous agent fleets</span>. 
+            Bridging the gap between raw research and production-grade applications.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <motion.a
+              href="#projects"
+              className="group relative flex items-center justify-center gap-3 px-10 py-5 bg-white text-black rounded-2xl font-black tracking-tight hover:bg-primary transition-all overflow-hidden"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              EXPLORE WORK
+              <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
+            </motion.a>
+            <motion.a
+              href="https://drive.google.com/file/d/1iHSh3v_KGjj8Ay1q2IqePfb1LvzFmzg0/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center justify-center gap-3 px-10 py-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl font-black text-white/70 hover:text-white hover:border-white/30 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Download size={20} className="group-hover:-translate-y-1 transition-transform" />
+              GET CV
+            </motion.a>
+          </div>
         </motion.div>
       </motion.div>
 
-      {/* Scroll cue */}
+      {/* Editorial Scroll Cue */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={{ delay: 2.5 }}
+        className="absolute bottom-12 left-12 hidden lg:flex flex-col gap-4"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 0.3, x: 0 }}
+        transition={{ delay: 3 }}
       >
-        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-white/50">Scroll</span>
-        <motion.div
-          className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent"
-          animate={{ scaleY: [0, 1, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          style={{ transformOrigin: "top" }}
-        />
+        <div className="w-px h-24 bg-gradient-to-b from-primary to-transparent" />
+        <span className="text-[9px] font-mono uppercase tracking-[0.5em] [writing-mode:vertical-lr]">Scroll Down</span>
       </motion.div>
     </section>
   );

@@ -2,16 +2,25 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-10 bg-black border-t border-white/[0.04]">
-      <div className="container px-6 mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-white/40 text-xs font-mono tracking-wider">
-          &copy; {currentYear} Surya Janardhan.
-        </p>
-        <div className="flex items-center gap-6 text-xs font-mono uppercase tracking-[0.15em]">
-          <a href="#about" className="text-white/40 hover:text-primary transition-colors">About</a>
-          <a href="#skills" className="text-white/40 hover:text-primary transition-colors">Skills</a>
-          <a href="#projects" className="text-white/40 hover:text-primary transition-colors">Projects</a>
-          <a href="#contact" className="text-white/40 hover:text-primary transition-colors">Contact</a>
+    <footer className="py-20 bg-black overflow-hidden">
+      <div className="container px-6 mx-auto">
+        <div className="flex flex-col items-center justify-center gap-8 text-center">
+          {/* Logo / Brand */}
+          <div className="text-2xl font-black tracking-tighter text-white">
+            SJ<span className="text-primary">.</span>
+          </div>
+          
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-white/30 text-[10px] font-mono uppercase tracking-[0.4em] mb-4">
+              Designed & Built with precision
+            </p>
+            <p className="text-white/20 text-[9px] font-mono tracking-widest">
+              &copy; {currentYear} SURYA JANARDHAN — ALL RIGHTS RESERVED
+            </p>
+          </div>
+
+          {/* Bottom space for dock padding */}
+          <div className="h-20 md:h-24" />
         </div>
       </div>
     </footer>
