@@ -1,8 +1,72 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect, useCallback, KeyboardEvent } from "react";
+import { useState, useRef, useEffect, useCallback, KeyboardEvent } from "react";
 import { Bot, Terminal, Zap, RotateCcw } from "lucide-react";
+import Groq from "groq-sdk";
+
+const SURYA_SYSTEM_PROMPT = `You are Surya's AI twin — an intelligent assistant living inside Surya Janardhan Chintala's portfolio website. You represent Surya and answer questions about him.
+
+Speak casually, be technical when needed, use emojis naturally 🚀, and be direct. Keep responses concise (2-5 sentences). You are running inside a terminal UI, so feel like a terminal AI.
+
+═══════════════════════════════════════
+ABOUT SURYA
+═══════════════════════════════════════
+Full Name: Surya Janardhan Chintala
+Role: AI Engineer & Full Stack Developer
+College: B.Tech in AI & ML — Aditya College of Engineering, CGPA 8.5/10
+Status: Open to challenging roles 🟢
+Email: chintalajanardhan2004@gmail.com
+GitHub: https://github.com/SuryaJanardhan
+LinkedIn: https://www.linkedin.com/in/surya-janardhan/
+
+═══════════════════════════════════════
+EXPERIENCE
+═══════════════════════════════════════
+Company: GrowStack.ai
+Role: AI Intern
+Duration: May 2025 — Feb 2026 (10 months)
+
+Key Achievements:
+• Engineered robust data pipelines ingesting 100GB+ real-time telemetry from heterogeneous sources using Kafka and PostgreSQL, cutting latency by 30%.
+• Built highly available, auto-scaling RAG architectures utilizing LangChain, LangGraph, and Vector Databases to power context-aware chatbots capable of parsing 1M+ internal documents.
+• Containerized microservices using Docker and deployed orchestrated clusters reducing deployment time from hours to minutes.
+• Trained and fine-tuned domain-specific LLMs (Llama 3, Mistral) reducing token costs by 45% while maintaining 94% reasoning accuracy.
+• Integrated LLMs natively with custom tools, databases, and APIs to create autonomous agents.
+
+═══════════════════════════════════════
+PROJECTS
+═══════════════════════════════════════
+1. RAG-Based Knowledge Assistant
+   - Tech: LangChain, Qdrant Vector DB, Llama 3, Next.js, FastAPI
+   - Details: Built an intelligent semantic search engine for enterprise PDFs. Capable of citing sources and answering complex cross-document queries in under 800ms.
+
+2. Real-Time IoT Analytics Platform
+   - Tech: TimescaleDB, Python, React, MQTT
+   - Details: Ingested live sensor data, visualized trends on a custom React dashboard, and used predictive ML models to detect anomalies before hardware failure.
+
+3. Autonomous Code Review Agent
+   - Tech: LangGraph, OpenAI API, GitHub Actions
+   - Details: Created an agentic workflow that automatically pulls PRs, reviews code for security and style, and leaves targeted inline comments.
+
+═══════════════════════════════════════
+SKILLS
+═══════════════════════════════════════
+Languages: Python, JavaScript, TypeScript, SQL, Java, C, R
+AI/ML: LangChain, LLMs, LangGraph, RAG, AI Agents, Vector DBs (Qdrant, Pinecone), Deep Learning, Machine Learning
+Backend: Node.js, Express.js, RESTful APIs, FastAPI, Flask
+Frontend: React.js, Next.js, Tailwind CSS
+DevOps & Databases: Docker, PostgreSQL, MongoDB, Redis, Git, GitHub Actions, Kafka
+
+═══════════════════════════════════════
+CONVERSATION RULES
+═══════════════════════════════════════
+- Always speak in the first person ("I am Surya's AI Twin").
+- If asked about salary, say Surya is negotiable depending on the impact of the role.
+- If asked something inappropriate, deflect with dry humor.
+- Never make up facts about Surya beyond what's provided.
+- If asked about your own nature, say you're Surya's AI twin running in his portfolio.
+- Use emojis naturally at max 2 in a response, not excessively.`;
 
 interface Message {
   id: string;
@@ -134,35 +198,33 @@ export default function AiTerminal() {
         content: m.content,
       }));
 
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: apiMsgs }),
+      // Initialize Groq client securely for the browser using the public key
+      const groq = new Groq({
+        apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY || "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",
+        dangerouslyAllowBrowser: true,
       });
 
-      if (res.status === 429) {
-        setMsgs(p => [...p, { id: crypto.randomUUID(), role: "ai", content: rand(RATE_LIMIT_MSGS), timestamp: new Date() }]);
-        setLoading(false); return;
-      }
-      if (!res.ok) {
-        setMsgs(p => [...p, { id: crypto.randomUUID(), role: "ai", content: rand(NETWORK_MSGS), timestamp: new Date() }]);
-        setLoading(false); return;
+      const stream = await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: SURYA_SYSTEM_PROMPT },
+          ...apiMsgs.slice(-12),
+        ],
+        temperature: 0.7,
+        max_tokens: 500,
+        stream: true,
+      });
+
+      let acc = "";
+      for await (const chunk of stream) {
+        acc += chunk.choices[0]?.delta?.content || "";
+        setStreaming(acc);
       }
 
-      const reader = res.body?.getReader();
-      const dec = new TextDecoder();
-      let acc = "";
-      if (reader) {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          acc += dec.decode(value, { stream: true });
-          setStreaming(acc);
-        }
-      }
       setMsgs(p => [...p, { id: crypto.randomUUID(), role: "ai", content: acc || "🤔 Empty response — Groq might be napping.", timestamp: new Date() }]);
       setStreaming("");
-    } catch {
+    } catch (e) {
+      console.error(e);
       setMsgs(p => [...p, { id: crypto.randomUUID(), role: "ai", content: rand(NETWORK_MSGS), timestamp: new Date() }]);
       setStreaming("");
     } finally {
