@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback, KeyboardEvent } from "react";
 import { Bot, Terminal, Zap, RotateCcw } from "lucide-react";
 
@@ -14,7 +14,7 @@ interface Message {
 const RATE_LIMIT_MSGS = [
   "⚡ Whoa there — my LLM neurons just hit the rate wall 🔥 Take a breather (~60s). Grab chai ☕, I'll be here.",
   "🚦 429: You've been asking questions harder than Redis flushes cache. Wait ~60s and we're good.",
-  "😅 Bro, even Groq's llama3 needs to catch its breath. Come back in a minute — it won't bite 🦙",
+  "😅 Bro, even Groq's llm needs to catch its breath. Come back in a minute — it won't bite 🦙",
   "🤖 ERR_TOO_CURIOUS — Rate limited. Surya's AI twin needs 60s cooldown. Go scroll his projects meanwhile 👆",
 ];
 
@@ -70,12 +70,11 @@ export default function AiTerminal() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-80px" });
   const ease = [0.16, 1, 0.3, 1] as const;
 
   // Boot sequence
   useEffect(() => {
-    if (!inView || booted) return;
+    if (booted) return;
     setBooted(true);
     let i = 0;
     const tick = () => {
@@ -84,7 +83,7 @@ export default function AiTerminal() {
       setTimeout(tick, 320 + Math.random() * 180);
     };
     setTimeout(tick, 500);
-  }, [inView, booted]);
+  }, [booted]);
 
   // Auto scroll
   useEffect(() => {
@@ -284,7 +283,7 @@ export default function AiTerminal() {
                   aria-label="Clear chat history"
                   title="Clear"
                 >
-                  <RotateCcw size={10} aria-hidden="true" /> clear
+                  <RotateCcw size={16} aria-hidden="true" />
                 </button>
                 <span
                   className="text-[10px] font-mono px-2 py-0.5 rounded border flex items-center gap-1"
@@ -294,7 +293,7 @@ export default function AiTerminal() {
                     background: "hsl(var(--primary) / 0.06)",
                   }}
                 >
-                  <Bot size={10} aria-hidden="true" />
+                  <Bot size={16} aria-hidden="true" />
                   {/* llama3-8b */}
                 </span>
               </div>
@@ -425,8 +424,14 @@ export default function AiTerminal() {
                   onKeyDown={onKey}
                   placeholder={bootLines.length < BOOT.length ? "initializing..." : (placeholderText ? `ask: ${placeholderText}` : "ask me anything about surya...")}
                   disabled={loading || bootLines.length < BOOT.length}
-                  className="w-full bg-black/20 focus:bg-black/40 border border-transparent focus:border-white/10 outline-none font-mono text-sm placeholder:opacity-40 rounded-lg px-3 py-2 transition-all"
-                  style={{ color: "hsl(var(--foreground) / 0.9)", caretColor: "hsl(var(--primary))" }}
+                  className="w-full bg-black/20 focus:bg-black/40 font-mono text-sm placeholder:opacity-40 rounded-lg px-3 py-2 transition-all"
+                  style={{ 
+                    color: "hsl(var(--foreground) / 0.9)", 
+                    caretColor: "hsl(var(--primary))",
+                    border: "none",
+                    outline: "none",
+                    boxShadow: "none"
+                  }}
                   aria-label="Chat input"
                   autoComplete="off"
                   spellCheck={false}
