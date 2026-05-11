@@ -10,7 +10,7 @@ interface SplitTextProps {
 
 export function SplitText({ text, className = "", delay = 0 }: SplitTextProps) {
   // Elite easing curve for smooth, expensive-feeling sweeps
-  const eliteEase = [0.16, 1, 0.3, 1];
+  const eliteEase = [0.16, 1, 0.3, 1] as const;
 
   const words = text.split(" ");
 

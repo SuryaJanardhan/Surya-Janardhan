@@ -18,6 +18,8 @@ interface MagneticButtonProps {
   rel?: string;
   onClick?: () => void;
   strength?: number;
+  style?: React.CSSProperties;
+  "aria-label"?: string;
 }
 
 export function MagneticButton({
@@ -29,6 +31,8 @@ export function MagneticButton({
   rel,
   onClick,
   strength = 0.3,
+  style,
+  "aria-label": ariaLabel,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -70,6 +74,9 @@ export function MagneticButton({
         target={target}
         rel={rel}
         onClick={onClick}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        style={style as any}
+        aria-label={ariaLabel}
         className={cn(
           "relative overflow-hidden group",
           className
