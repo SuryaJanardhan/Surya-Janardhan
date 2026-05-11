@@ -34,11 +34,9 @@ const SUGGESTIONS = [
 ];
 
 const BOOT = [
-  "⚡ Booting Surya's AI Twin v2.1.0...",
+  "⚡ Booting Surya's AI Twin ...",
   "🧠 Loading personality matrix... ████████████ 100%",
-  "📦 Indexing 7 projects + full work history...",
   "🔗 Connecting to LLM ...",
-  "✅ Online. Ask me anything about Surya 👇",
 ];
 
 function rand<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -425,8 +423,8 @@ export default function AiTerminal() {
                   placeholder={bootLines.length < BOOT.length ? "initializing..." : (placeholderText ? `ask: ${placeholderText}` : "ask me anything about surya...")}
                   disabled={loading || bootLines.length < BOOT.length}
                   className="w-full bg-black/20 focus:bg-black/40 font-mono text-sm placeholder:opacity-40 rounded-lg px-3 py-2 transition-all"
-                  style={{ 
-                    color: "hsl(var(--foreground) / 0.9)", 
+                  style={{
+                    color: "hsl(var(--foreground) / 0.9)",
                     caretColor: "hsl(var(--primary))",
                     border: "none",
                     outline: "none",
