@@ -75,12 +75,7 @@ interface Message {
   timestamp: Date;
 }
 
-const RATE_LIMIT_MSGS = [
-  "⚡ Whoa there — my LLM neurons just hit the rate wall 🔥 Take a breather (~60s). Grab chai ☕, I'll be here.",
-  "🚦 429: You've been asking questions harder than Redis flushes cache. Wait ~60s and we're good.",
-  "😅 Bro, even Groq's llm needs to catch its breath. Come back in a minute — it won't bite 🦙",
-  "🤖 ERR_TOO_CURIOUS — Rate limited. Surya's AI twin needs 60s cooldown. Go scroll his projects meanwhile 👆",
-];
+
 
 const NETWORK_MSGS = [
   "💀 Lost signal to the AI dimension. Check your connection and try again.",
@@ -194,7 +189,7 @@ export default function AiTerminal() {
 
     try {
       const apiMsgs = [...msgs, userMsg].map(m => ({
-        role: m.role === "user" ? "user" : "assistant",
+        role: (m.role === "user" ? "user" : "assistant") as "user" | "assistant",
         content: m.content,
       }));
 

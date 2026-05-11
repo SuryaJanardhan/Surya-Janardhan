@@ -66,6 +66,7 @@ function CarouselCard({
           {/* Project Image */}
           <div className="absolute inset-0 opacity-40 group-hover:opacity-90 transition-opacity duration-700">
             {project.image && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={project.image}
                 alt={`${project.title} preview`}

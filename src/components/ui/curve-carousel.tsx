@@ -43,7 +43,7 @@ export const CurveCarousel = ({ items }: { items: Item[] }) => {
       autoAdvance();
     }, 5000); // Slower interval for "smooth" feel
     return () => clearInterval(interval);
-  }, [isPaused, index]);
+  }, [isPaused, index, autoAdvance]);
 
   return (
     <div 
